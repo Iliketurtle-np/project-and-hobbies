@@ -4,7 +4,7 @@ import 'react-image-lightbox/style.css'; // Import the lightbox styles
 import Lightbox from 'react-image-lightbox';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000'; // Backend server URL
+const API_BASE_URL = 'https://project-and-hobbies.onrender.com'; // Backend server URL
 
 function About() {
   const [photos, setPhotos] = useState([]);
