@@ -5,26 +5,30 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
+// Ensure the public/images directory exists
+const publicDir = path.join(__dirname, 'public');
+const imagesDir = path.join(publicDir, 'images');
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
+}
+if (!fs.existsSync(imagesDir)) {
+  fs.mkdirSync(imagesDir, { recursive: true });
+}
+
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = path.join(__dirname, 'public', 'images');
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true }); // Create the directory if it doesn't exist
-    }
-    cb(null, dir);
+    cb(null, imagesDir);
   },
   filename: (req, file, cb) => {
-    // Generate a unique filename (e.g., photo7.jpg, photo8.jpg)
-    const files = fs.readdirSync(path.join(__dirname, 'public', 'images'));
-    const photoCount = files.filter((file) => file.startsWith('photo')).length;
-    const newFileName = `photo${photoCount + 1}${path.extname(file.originalname)}`;
+    // Generate a unique filename using a timestamp
+    const newFileName = `photo${Date.now()}${path.extname(file.originalname)}`;
     cb(null, newFileName);
   },
 });
@@ -32,19 +36,25 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Upload Endpoint
-app.post('/upload', upload.single('image'), (req, res) => {
-  console.log('File received:', req.file); // Debugging line
-  if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-  res.json({ message: 'File uploaded successfully', file: req.file });
+app.post('/upload', (req, res) => {
+  upload.single('image')(req, res, (err) => {
+    if (err) {
+      console.error('Multer error:', err);
+      return res.status(400).json({ error: 'File upload failed' });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    console.log('File received:', req.file);
+    res.json({ message: 'File uploaded successfully', file: req.file });
+  });
 });
 
 // List Images Endpoint
 app.get('/images', (req, res) => {
-  const dir = path.join(__dirname, 'public', 'images');
-  fs.readdir(dir, (err, files) => {
+  fs.readdir(imagesDir, (err, files) => {
     if (err) {
+      console.error('Error reading images directory:', err);
       return res.status(500).json({ error: 'Unable to read images directory' });
     }
     res.json(files);
@@ -52,7 +62,7 @@ app.get('/images', (req, res) => {
 });
 
 // Serve Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(publicDir));
 
 // Start the Server
 app.listen(PORT, () => {

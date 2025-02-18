@@ -15,29 +15,33 @@ function About() {
     const loadPhotos = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/images`); // Fetch list of images from the backend
-        setPhotos(response.data.map((file) => ({ src: `/images/${file}`, caption: file })));
+        setPhotos(response.data.map((file) => ({
+          src: `${API_BASE_URL}/images/${file}`, // Use the backend URL for images
+          caption: file,
+        })));
       } catch (error) {
         console.error('Error loading photos:', error);
       }
     };
     loadPhotos();
   }, []);
+  
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
+  
     const formData = new FormData();
     formData.append('image', file);
-
+  
     try {
       const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log(response.data.message);
-
+  
       // Reload the photos after uploading
-      const newPhoto = { src: `/images/${response.data.file.filename}`, caption: response.data.file.filename };
+      const newPhoto = { src: `${API_BASE_URL}/images/${response.data.file.filename}`, caption: response.data.file.filename };
       setPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
     } catch (error) {
       console.error('Error uploading image:', error);
