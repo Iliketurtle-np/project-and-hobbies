@@ -9,9 +9,9 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 Modal.setAppElement('#root'); // Required for accessibility
 
 const localizer = momentLocalizer(moment);
+const API_BASE_URL = 'https://project-and-hobbies.onrender.com'; // Replace with your Render backend URL
 
 function MyCalendar() {
-  const API_BASE_URL = 'https://project-and-hobbies.onrender.com'; // Replace with your Render backend URL
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const [formData, setFormData] = useState({
