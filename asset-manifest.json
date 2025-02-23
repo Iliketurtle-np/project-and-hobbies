@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/project-and-hobbies/static/css/main.3626e33b.css",
-    "main.js": "/project-and-hobbies/static/js/main.b596667e.js",
-    "static/js/453.ad3bb999.chunk.js": "/project-and-hobbies/static/js/453.ad3bb999.chunk.js",
+    "main.css": "/project-and-hobbies/static/css/main.70636536.css",
+    "main.js": "/project-and-hobbies/static/js/main.105eb49c.js",
+    "static/js/453.daf9c4a3.chunk.js": "/project-and-hobbies/static/js/453.daf9c4a3.chunk.js",
     "index.html": "/project-and-hobbies/index.html",
-    "main.3626e33b.css.map": "/project-and-hobbies/static/css/main.3626e33b.css.map",
-    "main.b596667e.js.map": "/project-and-hobbies/static/js/main.b596667e.js.map",
-    "453.ad3bb999.chunk.js.map": "/project-and-hobbies/static/js/453.ad3bb999.chunk.js.map"
+    "main.70636536.css.map": "/project-and-hobbies/static/css/main.70636536.css.map",
+    "main.105eb49c.js.map": "/project-and-hobbies/static/js/main.105eb49c.js.map",
+    "453.daf9c4a3.chunk.js.map": "/project-and-hobbies/static/js/453.daf9c4a3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3626e33b.css",
-    "static/js/main.b596667e.js"
+    "static/css/main.70636536.css",
+    "static/js/main.105eb49c.js"
   ]
 }
