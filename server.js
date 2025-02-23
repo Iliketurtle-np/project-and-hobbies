@@ -83,20 +83,30 @@ app.post('/api/appointments', (req, res) => {
     res.status(500).json({ error: 'Failed to schedule appointment' });
   }
 });
+
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, imagesDir);
   },
   filename: (req, file, cb) => {
-    // Generate a unique filename using a timestamp
-    const photoFiles = files.filter((f) => f.startsWith('photo'));
+    // Read the contents of the images directory
+    fs.readdir(imagesDir, (err, files) => {
+      if (err) {
+        console.error('Error reading images directory:', err);
+        return cb(err);
+      }
+
+      // Filter files that start with "photo" and extract their numbers
+      const photoFiles = files.filter((f) => f.startsWith('photo'));
       const photoCount = photoFiles.length;
-    const newFileName = `photo${photoCount + 1}${path.extname(file.originalname)}`;
-    cb(null, newFileName);
+
+      // Generate a new filename (e.g., photo8.jpg, photo9.jpg)
+      const newFileName = `photo${photoCount + 1}${path.extname(file.originalname)}`;
+      cb(null, newFileName);
+    });
   },
 });
-
 const upload = multer({ storage });
 
 // Upload Endpoint
