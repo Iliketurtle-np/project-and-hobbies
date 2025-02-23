@@ -1,4 +1,3 @@
-
 {
   "homepage": "https://iliketurtle-np.github.io/project-and-hobbies",
   "name": "project-and-hobbies",
@@ -12,8 +11,11 @@
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "moment": "^2.30.1",
+    "mongoose": "^8.10.1",
     "multer": "^1.4.5-lts.1",
     "react": "^19.0.0",
+    "react-big-calendar": "^1.17.1",
     "react-dom": "^19.0.0",
     "react-image-lightbox": "^5.1.4",
     "react-router-dom": "^7.1.5",
@@ -22,9 +24,9 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-  "deploy": "gh-pages -d build",
-  "start": "react-scripts start",
-  "build": "react-scripts build"
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +49,4 @@
   "devDependencies": {
     "gh-pages": "^6.3.0"
   }
-  
 }

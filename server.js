@@ -21,6 +21,70 @@ if (!fs.existsSync(imagesDir)) {
   fs.mkdirSync(imagesDir, { recursive: true });
 }
 
+
+
+// Path to the appointments JSON file
+const appointmentsFile = path.join(__dirname, 'appointments.json');
+
+// Helper function to read appointments from the JSON file
+function readAppointments() {
+  const data = fs.readFileSync(appointmentsFile, 'utf8');
+  return JSON.parse(data);
+}
+
+// Helper function to write appointments to the JSON file
+function writeAppointments(appointments) {
+  fs.writeFileSync(appointmentsFile, JSON.stringify(appointments, null, 2), 'utf8');
+}
+// Get all appointments
+app.get('/api/appointments', (req, res) => {
+  try {
+    const appointments = readAppointments();
+    res.json(appointments);
+  } catch (error) {
+    console.error('Error reading appointments:', error);
+    res.status(500).json({ error: 'Failed to fetch appointments' });
+  }
+});
+
+// Schedule a new appointment
+app.post('/api/appointments', (req, res) => {
+  const { title, start, end } = req.body;
+
+  // Validate input
+  if (!title || !start || !end) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  try {
+    // Read existing appointments
+    const appointments = readAppointments();
+
+    // Check for conflicts
+    const conflict = appointments.find(
+      (appointment) =>
+        (new Date(start) < new Date(appointment.end)) &&
+        (new Date(end) > new Date(appointment.start))
+    );
+
+    if (conflict) {
+      return res.status(400).json({ error: 'This time slot is already booked' });
+    }
+
+    // Add the new appointment
+    const newAppointment = { title, start, end };
+    appointments.push(newAppointment);
+
+    // Write updated appointments back to the file
+    writeAppointments(appointments);
+
+    res.json({ message: 'Appointment scheduled successfully' });
+  } catch (error) {
+    console.error('Error scheduling appointment:', error);
+    res.status(500).json({ error: 'Failed to schedule appointment' });
+  }
+});
+
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -28,7 +92,8 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     // Generate a unique filename using a timestamp
-    const newFileName = `photo${Date.now()}${path.extname(file.originalname)}`;
+    const photoCount = files.length;
+    const newFileName = `photo${photoCount + 1}${path.extname(file.originalname)}`;
     cb(null, newFileName);
   },
 });

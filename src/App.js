@@ -1,30 +1,25 @@
 import React from 'react';
-import './App.css';
-import { Routes, Route, Link } from 'react-router-dom';
-import About from './About';
-function Home() {
-  return <h2>Home Page</h2>;
-}
-
-
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './Navbar'; // Import the Navigation Bar
+import About from './About'; // Import the About component
+import MyCalendar from './MyCalendar'; // Import the Calendar component
+import Home from './Home';
 function App() {
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link> {/* Navigation link for Home */}
-          </li>
-          <li>
-            <Link to="/about">About</Link> {/* Navigation link for About */}
-          </li>
-        </ul>
-      </nav>
-    
-      {/* Define your routes */}
+      {/* Add the Navigation Bar */}
+      <Navbar />
+
+      {/* Define Routes */}
       <Routes>
-        <Route path="/" element={<Home />} /> {/* Route for Home */}
-        <Route path="/about" element={<About />} /> {/* Route for About */}
+        {/* Default route: About page */}
+        <Route path="/about" element={<About />} />
+
+        {/* Calendar route */}
+        <Route path="/calendar" element={<MyCalendar />} />
+
+         {/* Default route: Home page */}
+         <Route path="/" element={<Home />} />
       </Routes>
     </div>
   );
