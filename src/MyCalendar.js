@@ -11,6 +11,7 @@ Modal.setAppElement('#root'); // Required for accessibility
 const localizer = momentLocalizer(moment);
 
 function MyCalendar() {
+  const API_BASE_URL = 'https://your-backend-name.onrender.com'; // Replace with your Render backend URL
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ function MyCalendar() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('/api/appointments');
+        const response = await axios.get(`${API_BASE_URL}/api/appointments`);
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching appointments:', error);
@@ -47,7 +48,7 @@ function MyCalendar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/appointments', formData);
+      await axios.post(`${API_BASE_URL}/api/appointments`, formData);
       alert('Appointment scheduled successfully!');
       setIsModalOpen(false); // Close the modal after submission
     } catch (error) {
