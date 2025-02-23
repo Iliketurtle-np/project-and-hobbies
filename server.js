@@ -36,7 +36,53 @@ function readAppointments() {
 function writeAppointments(appointments) {
   fs.writeFileSync(appointmentsFile, JSON.stringify(appointments, null, 2), 'utf8');
 }
+app.get('/api/appointments', (req, res) => {
+  try {
+    const appointments = readAppointments();
+    res.json(appointments);
+  } catch (error) {
+    console.error('Error reading appointments:', error);
+    res.status(500).json({ error: 'Failed to fetch appointments' });
+  }
+});
 
+// Schedule a new appointment
+app.post('/api/appointments', (req, res) => {
+  const { title, start, end } = req.body;
+
+  // Validate input
+  if (!title || !start || !end) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  try {
+    // Read existing appointments
+    const appointments = readAppointments();
+
+    // Check for conflicts
+    const conflict = appointments.find(
+      (appointment) =>
+        (new Date(start) < new Date(appointment.end)) &&
+        (new Date(end) > new Date(appointment.start))
+    );
+
+    if (conflict) {
+      return res.status(400).json({ error: 'This time slot is already booked' });
+    }
+
+    // Add the new appointment
+    const newAppointment = { title, start, end };
+    appointments.push(newAppointment);
+
+    // Write updated appointments back to the file
+    writeAppointments(appointments);
+
+    res.json({ message: 'Appointment scheduled successfully' });
+  } catch (error) {
+    console.error('Error scheduling appointment:', error);
+    res.status(500).json({ error: 'Failed to schedule appointment' });
+  }
+});
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
