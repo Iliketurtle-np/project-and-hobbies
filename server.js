@@ -135,6 +135,56 @@ app.get('/images', (req, res) => {
   });
 });
 
+
+// **********************************WISHLIST*****************************************************************
+
+
+
+// Path to the wishlist JSON file
+const wishlistFile = path.join(__dirname, 'wishlist.json');
+
+// Helper function to read wishlist items
+function readWishlist() {
+  if (!fs.existsSync(wishlistFile)) {
+    fs.writeFileSync(wishlistFile, JSON.stringify([]), 'utf8');
+  }
+  const data = fs.readFileSync(wishlistFile, 'utf8');
+  return JSON.parse(data);
+}
+
+// Helper function to write wishlist items
+function writeWishlist(items) {
+  fs.writeFileSync(wishlistFile, JSON.stringify(items, null, 2), 'utf8');
+}
+
+// Get all wishlist items
+app.get('/api/wishlist', (req, res) => {
+  try {
+    const items = readWishlist();
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch wishlist' });
+  }
+});
+
+// Add a new wishlist item
+app.post('/api/wishlist', (req, res) => {
+  const { item } = req.body;
+  if (!item) {
+    return res.status(400).json({ error: 'Item is required' });
+  }
+
+  try {
+    const items = readWishlist();
+    items.push(item);
+    writeWishlist(items);
+    res.json({ message: 'Item added successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add item' });
+  }
+});
+
+
 // Serve Static Files
 app.use(express.static(publicDir));
 
@@ -142,3 +192,5 @@ app.use(express.static(publicDir));
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+

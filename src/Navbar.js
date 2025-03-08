@@ -8,7 +8,7 @@ function Navbar() {
         {/* Link to the Home page */}
         <li style={styles.item}>
           <NavLink
-            to="/"
+            to="/project-and-hobbies"
             style={({ isActive }) => ({
               ...styles.link,
               fontWeight: isActive ? 'bold' : 'normal',
@@ -46,6 +46,18 @@ function Navbar() {
             Calendar
           </NavLink>
         </li>
+        <li style={styles.item}>
+        <NavLink
+          to="/wishlist"
+          style={({ isActive }) => ({
+            ...styles.link,
+            fontWeight: isActive ? 'bold' : 'normal',
+            color: isActive ? '#ff6347' : 'white',
+          })}
+        >
+          Wishlist
+        </NavLink>
+      </li>
       </ul>
     </nav>
   );

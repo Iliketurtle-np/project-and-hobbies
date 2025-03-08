@@ -19,7 +19,8 @@ function App() {
         <Route path="/calendar" element={<MyCalendar />} />
 
          {/* Default route: Home page */}
-         <Route path="/" element={<Home />} />
+         <Route path="/project-and-hobbies" element={<Home />} />
+         <Route path="/wishlist" element={<Wishlist />} /> {/* Wishlist route */}
       </Routes>
     </div>
   );
