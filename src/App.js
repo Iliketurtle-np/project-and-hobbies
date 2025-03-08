@@ -4,6 +4,7 @@ import Navbar from './Navbar'; // Import the Navigation Bar
 import About from './About'; // Import the About component
 import MyCalendar from './MyCalendar'; // Import the Calendar component
 import Home from './Home';
+import Wishlist from './Wishlist';
 function App() {
   return (
     <div>
