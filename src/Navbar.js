@@ -58,6 +58,18 @@ function Navbar() {
           Wishlist
         </NavLink>
       </li>
+      <li style={styles.item}>
+      <NavLink
+        to="/itinerary"
+        style={({ isActive }) => ({
+          ...styles.link,
+          fontWeight: isActive ? 'bold' : 'normal',
+          color: isActive ? '#ff6347' : 'white',
+        })}
+      >
+        Itinerary Planner
+      </NavLink>
+      </li>
       </ul>
     </nav>
   );

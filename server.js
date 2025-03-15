@@ -185,6 +185,66 @@ app.post('/api/wishlist', (req, res) => {
 });
 
 
+//-----------------------------itinerary planner--------------------
+// Path to the itinerary JSON file
+const itineraryFile = path.join(__dirname, 'itinerary.json');
+
+// Helper function to read itinerary data
+function readItinerary() {
+  if (!fs.existsSync(itineraryFile)) {
+    fs.writeFileSync(itineraryFile, JSON.stringify([]), 'utf8');
+  }
+  const data = fs.readFileSync(itineraryFile, 'utf8');
+  return JSON.parse(data);
+}
+
+// Helper function to write itinerary data
+function writeItinerary(items) {
+  fs.writeFileSync(itineraryFile, JSON.stringify(items, null, 2), 'utf8');
+}
+
+// Get all itinerary items
+app.get('/api/itinerary', (req, res) => {
+  try {
+    const items = readItinerary();
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch itinerary' });
+  }
+});
+
+// Add a new itinerary item
+app.post('/api/itinerary', (req, res) => {
+  const { title, time, location, description } = req.body;
+  if (!title || !time) {
+    return res.status(400).json({ error: 'Title and time are required' });
+  }
+
+  try {
+    const items = readItinerary();
+    items.push({ id: Date.now(), title, time, location, description });
+    writeItinerary(items);
+    res.json({ message: 'Item added successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add item' });
+  }
+});
+
+// Delete an itinerary item
+app.delete('/api/itinerary/:id', (req, res) => {
+  const itemId = Number(req.params.id);
+
+  try {
+    let items = readItinerary();
+    items = items.filter((item) => item.id !== itemId);
+    writeItinerary(items);
+    res.json({ message: 'Item deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete item' });
+  }
+});
+
+
 // Serve Static Files
 app.use(express.static(publicDir));
 

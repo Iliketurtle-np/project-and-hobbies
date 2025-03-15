@@ -5,6 +5,7 @@ import About from './About'; // Import the About component
 import MyCalendar from './MyCalendar'; // Import the Calendar component
 import Home from './Home';
 import Wishlist from './Wishlist';
+import ItineraryPlanner from './ItineraryPlanner';
 function App() {
   return (
     <div>
@@ -22,6 +23,8 @@ function App() {
          {/* Default route: Home page */}
          <Route path="/project-and-hobbies" element={<Home />} />
          <Route path="/wishlist" element={<Wishlist />} /> {/* Wishlist route */}
+         <Route path="/itinerary" element={<ItineraryPlanner />} /> {/* Itinerary route */}
+
       </Routes>
     </div>
   );
