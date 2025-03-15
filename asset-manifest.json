@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/project-and-hobbies/static/css/main.70636536.css",
-    "main.js": "/project-and-hobbies/static/js/main.f3b3c343.js",
+    "main.js": "/project-and-hobbies/static/js/main.459f5e47.js",
     "static/js/453.daf9c4a3.chunk.js": "/project-and-hobbies/static/js/453.daf9c4a3.chunk.js",
     "index.html": "/project-and-hobbies/index.html",
     "main.70636536.css.map": "/project-and-hobbies/static/css/main.70636536.css.map",
-    "main.f3b3c343.js.map": "/project-and-hobbies/static/js/main.f3b3c343.js.map",
+    "main.459f5e47.js.map": "/project-and-hobbies/static/js/main.459f5e47.js.map",
     "453.daf9c4a3.chunk.js.map": "/project-and-hobbies/static/js/453.daf9c4a3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.70636536.css",
-    "static/js/main.f3b3c343.js"
+    "static/js/main.459f5e47.js"
   ]
 }
