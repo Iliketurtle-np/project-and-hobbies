@@ -6,6 +6,7 @@ import MyCalendar from './MyCalendar'; // Import the Calendar component
 import Home from './Home';
 import Wishlist from './Wishlist';
 import ItineraryPlanner from './ItineraryPlanner';
+import VideoDownloader from './VideoDownloader';
 function App() {
   return (
     <div>
@@ -24,7 +25,7 @@ function App() {
          <Route path="/project-and-hobbies" element={<Home />} />
          <Route path="/wishlist" element={<Wishlist />} /> {/* Wishlist route */}
          <Route path="/itinerary" element={<ItineraryPlanner />} /> {/* Itinerary route */}
-
+         <Route path="/tiktok" element={<VideoDownloader />} /> {/* Itinerary route */}
       </Routes>
     </div>
   );

@@ -70,6 +70,18 @@ function Navbar() {
         Itinerary Planner
       </NavLink>
       </li>
+      <li style={styles.item}>
+      <NavLink
+        to="/tiktok"
+        style={({ isActive }) => ({
+          ...styles.link,
+          fontWeight: isActive ? 'bold' : 'normal',
+          color: isActive ? '#ff6347' : 'white',
+        })}
+      >
+      Tiktok
+      </NavLink>
+      </li>
       </ul>
     </nav>
   );

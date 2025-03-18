@@ -244,6 +244,31 @@ app.delete('/api/itinerary/:id', (req, res) => {
   }
 });
 
+//tiktok video downloader
+
+// TikTok Downloader API Endpoint
+app.post('/api/download-tiktok', async (req, res) => {
+  const { videoUrl } = req.body;
+
+  if (!videoUrl) {
+    return res.status(400).json({ error: 'Video URL is required' });
+  }
+
+  try {
+    // Replace with a legitimate TikTok downloader API
+    const response = await axios.get(`https://api.tiktokdownloader.com/download?url=${encodeURIComponent(videoUrl)}`);
+    const downloadUrl = response.data.downloadUrl;
+
+    if (!downloadUrl) {
+      return res.status(400).json({ error: 'Failed to retrieve video URL' });
+    }
+
+    res.json({ downloadUrl });
+  } catch (error) {
+    console.error('Error fetching video:', error);
+    res.status(500).json({ error: 'Failed to download video' });
+  }
+});
 
 // Serve Static Files
 app.use(express.static(publicDir));
